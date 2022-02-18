@@ -13,6 +13,8 @@ func main() {
 		return
 	}
 
+	err = mongoClient.Ping()
+
 	numOfTries := 10
 
 	for i := 0; i < numOfTries; i++ {

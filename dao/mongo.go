@@ -1,14 +1,17 @@
 package dao
 
 import (
+	"context"
 	"github.com/jterryhao/Mongo-Redis/model"
 	"github.com/jterryhao/Mongo-Redis/utils"
 	"github.com/kamva/mgm/v3"
+	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 	"time"
 )
 
 type mongoClient struct {
+	Client *mongo.Client
 }
 
 func NewMongoClient() (*mongoClient, error) {
@@ -21,7 +24,12 @@ func NewMongoClient() (*mongoClient, error) {
 	if err != nil {
 		return nil, err
 	}
-	return &mongoClient{}, nil
+
+	_, mc, _, err := mgm.DefaultConfigs()
+
+	return &mongoClient{
+		Client: mc,
+	}, nil
 }
 
 func (c *mongoClient) CreateTodoItem(t *model.ToDoItem) error {
@@ -61,4 +69,10 @@ func (c *mongoClient) DeleteTodoItem(id string) error {
 	}
 
 	return coll.Delete(t)
+}
+
+func (c *mongoClient) Ping() error {
+	defer utils.TimeTrack(time.Now(), "ping")
+
+	return c.Client.Ping(context.Background(), nil)
 }
