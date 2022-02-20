@@ -10,4 +10,6 @@ type ToDoDataAccessor interface {
 	UpdateTodoItem(t *model.ToDoItem) error
 
 	DeleteTodoItem(id string) error
+
+	Ping() error
 }

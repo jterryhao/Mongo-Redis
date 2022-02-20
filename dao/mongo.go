@@ -15,7 +15,7 @@ type mongoClient struct {
 }
 
 func NewMongoClient() (*mongoClient, error) {
-	defer utils.TimeTrack(time.Now(), "init mongo client")
+	defer utils.TimeTrack(time.Now(), "init mongo Client")
 	testConfig := &mgm.Config{CtxTimeout: time.Second * 30}
 	connString := "mongodb+srv://terry-test:terry-test@terry-test-cluster.r5h6f.mongodb.net/myFirstDatabase?retryWrites=true&w=majority"
 	err := mgm.SetDefaultConfig(testConfig,
